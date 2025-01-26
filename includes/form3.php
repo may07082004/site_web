@@ -10,18 +10,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         require_once "dbh.inc.php";
         
-        // Vérifier si l'email existe déjà
         $query = "SELECT email FROM users WHERE email = :email";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":email", $email);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            // Si l'email existe déjà, rediriger vers la page de connexion
             header("Location: http://localhost/web4/Projet%20webdev/signin.php?error=email_exists");
             exit();
         } else {
-            // Insérer les nouvelles données de l'utilisateur
+            
             $query = "INSERT INTO users (first_name, last_name, email, pwd, date_naissance) 
                       VALUES (:first_name, :last_name, :email, :pwd, :date_naissance)";
             
